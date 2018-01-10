@@ -1,4 +1,4 @@
-function a = my_rep_HOG(m)
+function [a,HOGfeatures] = my_rep_HOG(m)
 
     a = prdataset(m*im_box([],0,1)*im_resize([],[32,32])*im_box([],1,0));  % resize all the samples to 32*32 dimentionality
     label = getlabels(a);
@@ -11,6 +11,6 @@ function a = my_rep_HOG(m)
         feature_HOG(i,:) = extractHOGFeatures(img);                        
     end   
     a = prdataset(feature_HOG, label);                                     % create prdataset for HOG features                
-
+    HOGfeatures= feature_HOG;
      
 end

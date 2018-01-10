@@ -1,9 +1,25 @@
 %% Load datafiles
-original_dataset = prnist([0:9],[1:1000]);
+original_dataset = prnist([0:9],[1:50:1000]);
 large_dataset = my_rep(original_dataset);
 
 %% HOG features
-large_dataset_HOG = my_rep_HOG(original_dataset);     
+[large_dataset_HOG,HOGfeatures] = my_rep_HOG(original_dataset);     
+
+%% NEW features
+tic
+[large_dataset_NEW,NEWfeatures] = my_rep_SIFT(original_dataset); 
+toc
+W = loglc;                                                                 % select classifier
+W_NEW = large_dataset_NEW * W;                                             % creat mapping
+e_loglc = nist_eval('my_rep_SIFT', W_NEW,10)
+
+%% GABOR feaures
+
+[large_dataset_NEW,GABORfeatures] = my_rep_GABOR(original_dataset);
+
+W = loglc;                                                                 % select classifier
+W_NEW = large_dataset_NEW * W;                                             % creat mapping
+e_loglc = nist_eval('my_rep_GABOR', W_NEW,10)
 
 %% PCA analysis
 pca_30= scalem([],'variance') * pcam([],30);
@@ -19,6 +35,12 @@ W = loglc;                                                                 % sel
 W_HOG = large_dataset_HOG * W;                                             % creat mapping
 e_loglc = nist_eval('my_rep_HOG', W_HOG)
 
+%% evaluation on NEW features
+tic
+W = svc;                                                                 % select classifier
+W_NEW = large_dataset_NEW * W;                                             % creat mapping
+e_loglc = nist_eval('my_rep_NEW', W_NEW)
+toc
 %% evaluation on pixels with PCA 
 W = pca_30 * nmc;
 W_pca = large_dataset * W;
