@@ -12,3 +12,7 @@ Todo:
 3. Possibly semi-supervised learning ( The manual said that 'It goes without saying that
 you may not use the test error to optimise your system in any way')
 
+Todo for Valentina:
+1. perform the experiments on small dataset with pixel representations(PCA and 4*4 matrix). 
+2. make the plot for feature reduction on small dataset
+3. try to come up with more plots to discuss our decision.
